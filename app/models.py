@@ -14,6 +14,7 @@ class Project(models.Model):
 class Post(models.Model):
     date = models.DateField(auto_now=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return self.title
@@ -22,7 +23,7 @@ class Category(models.Model):
     label = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.title
+        return self.label
         
     class Meta:
         verbose_name_plural = 'Categories'

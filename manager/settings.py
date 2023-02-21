@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
-
+CSRF_TRUSTED_ORIGINS = ['https://8000-carljduff-qabackend-i398f4bi4cn.ws-us87.gitpod.io']
 # Application definition
 
 INSTALLED_APPS = [
