@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 # Create your models here.
 class Project(models.Model):
@@ -7,6 +9,7 @@ class Project(models.Model):
     jira = models.URLField(blank=True)
     mockup = models.URLField(blank=True)
     confluence = models.URLField(blank=True)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='creators', default="", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -14,7 +17,7 @@ class Project(models.Model):
 class Post(models.Model):
     date = models.DateField(auto_now=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=100, blank=True, default="")
 
     def __str__(self):
         return self.title
@@ -38,3 +41,7 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.title
+
+class CustomUser(AbstractUser):
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
