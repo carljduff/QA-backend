@@ -28,8 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
-CSRF_TRUSTED_ORIGINS = ['https://8000-carljduff-qabackend-i398f4bi4cn.ws-us87.gitpod.io']
+# CSRF_TRUSTED_ORIGINS = ['https://8000-carljduff-qabackend-i398f4bi4cn.ws-us88.gitpod.io']
 # Application definition
+
+AUTH_USER_MODEL = 'app.UserData'
 
 INSTALLED_APPS = [
     'corsheaders',
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_simplejwt',
     'app',
 ]
 
@@ -72,6 +75,12 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
 WSGI_APPLICATION = 'manager.wsgi.application'
 
 
@@ -84,7 +93,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
