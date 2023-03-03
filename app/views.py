@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, status
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.response import Response
+from .serializers import ProjectSerializer, PostSerializer, TicketSerializer, CategorySerializer, UserSerializer
+from .models import Project, Post, Ticket, Category, UserData
 from rest_framework.views import APIView
-from rest_framework.decorators import action
-from .serializers import ProjectSerializer, PostSerializer, TicketSerializer, CategorySerializer, CustomUserSerializer
-from .models import Project, Post, Ticket, Category, CustomUser
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -37,18 +35,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
     ]
     serializer_class = CategorySerializer
 
-class CustomUserViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
-
-class UserCreate(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format='json'):
-        serializer = CustomUserSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            if user:
-                json = serializer.data
-                return Response(json, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
